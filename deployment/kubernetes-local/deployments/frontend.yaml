@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+
+# Replica set
+spec:
+  selector:
+    matchLabels:
+      app: udagram
+      service: frontend
+  replicas: 1
+
+# Pod Template    
+  template:
+    metadata:
+      labels:
+        app: udagram
+        service: frontend
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: frontend
+          image: kbaafi/udagram-frontend-k8s
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+              name: http

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+
+# Replica set
+spec:
+  selector:
+    matchLabels:
+      app: udagram
+      service: database
+  replicas: 1
+
+# Pod Template    
+  template:
+    metadata:
+      labels:
+        app: udagram
+        service: database
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: database
+          image: kbaafi/udagram-db
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBUSERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBPASSWORD

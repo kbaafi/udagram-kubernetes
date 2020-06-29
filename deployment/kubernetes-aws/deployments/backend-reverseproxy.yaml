@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverseproxy
+
+# Replica set
+spec:
+  selector:
+    matchLabels:
+      app: udagram
+      service: reverseproxy
+  replicas: 1
+
+# Pod Template    
+  template:
+    metadata:
+      labels:
+        app: udagram
+        service: reverseproxy
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: reverseproxy
+          image: kbaafi/udagram-rest-reverseproxy
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          ports:
+            - name: http
+              containerPort: 8080            

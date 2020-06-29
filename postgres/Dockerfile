@@ -1,0 +1,5 @@
+FROM postgres
+ENV POSTGRES_USER udagram
+ENV POSTGRES_PASSWORD jyxh87e4
+ENV POSTGRES_DB udagram
+

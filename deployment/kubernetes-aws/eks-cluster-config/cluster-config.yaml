@@ -1,0 +1,21 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: udagram
+  region: us-east-2
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: udagram-media-access
+        labels: {aws-usage: "application"}
+      attachPolicyARNs:
+        - "arn:aws:iam::229188620148:policy/udagram-media-dev-s3"
+
+nodeGroups:
+  - name: ng-udagram
+    labels: { role: backend-services}
+    instanceType: t3.medium
+    desiredCapacity: 3

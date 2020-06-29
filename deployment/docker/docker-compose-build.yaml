@@ -1,0 +1,18 @@
+version: '3'
+services:
+  reverse-proxy:
+    build:
+      context: ../reverse-proxy
+    image: kbaafi/udagram-rest-reverse-proxy
+  backend-user:
+    build:
+      context: ../user
+    image: kbaafi/udagram-rest-user
+  backend-feed:
+    build:
+      context: ../feed
+    image: kbaafi/udagram-rest-feed
+  frontend:
+    build: 
+      context: ../frontend
+    image: kbaafi/udagram-frontend

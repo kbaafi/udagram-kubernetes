@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-user
+
+# Replica set
+spec:
+  selector:
+    matchLabels:
+      app: udagram
+      service: backend-user
+  replicas: 2
+
+# Pod Template    
+  template:
+    metadata:
+      labels:
+        app: udagram
+        service: backend-user
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: backend-user
+          image: kbaafi/udagram-rest-user 
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          env:
+            - name: UDAGRAM_DBUSERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBUSERNAME
+            - name: UDAGRAM_DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBPASSWORD
+            - name: UDAGRAM_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBNAME
+            - name: UDAGRAM_DBHOST
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_DBHOST
+            - name: UDAGRAM_ORMDIALECT
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_ORMDIALECT
+            - name: UDAGRAM_AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_AWS_REGION
+            - name: UDAGRAM_AWS_PROFILE
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_AWS_PROFILE
+            - name: UDAGRAM_S3_MEDIABUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_S3_MEDIABUCKET
+            - name: UDAGRAM_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: UDAGRAM_JWT_SECRET
+            - name: UDAGRAM_FRONTEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: UDAGRAM_FRONTEND_URL

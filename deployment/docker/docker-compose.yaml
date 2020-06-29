@@ -1,0 +1,74 @@
+version: "3"
+services:
+  reverse-proxy:
+    image: kbaafi/udagram-rest-reverse-proxy
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on: 
+      - backend-feed
+      - backend-user
+    networks:
+      udagram:
+        aliases: 
+          - reverse-proxy
+  database:
+    image: kbaafi/udagram-db
+    networks:
+      udagram:
+        aliases: 
+          - database
+  backend-user:
+    image: kbaafi/udagram-rest-user
+    volumes:
+     - c:/users/kofi.baafi/.aws:/root/.aws
+    depends_on: 
+      - database
+    environment:
+      UDAGRAM_DBUSERNAME: $UDAGRAM_DBUSERNAME
+      UDAGRAM_DBPASSWORD: $UDAGRAM_DBPASSWORD
+      UDAGRAM_DBNAME: $UDAGRAM_DBNAME
+      UDAGRAM_DBHOST: database
+      UDAGRAM_ORMDIALECT: $UDAGRAM_ORMDIALECT
+      UDAGRAM_AWS_REGION: $UDAGRAM_AWS_REGION
+      UDAGRAM_AWS_PROFILE: $UDAGRAM_AWS_PROFILE
+      UDAGRAM_S3_MEDIABUCKET: $UDAGRAM_S3_MEDIABUCKET
+      UDAGRAM_FRONTEND_URL: 'http://localhost:8100'
+      UDAGRAM_JWT_SECRET: 'd2hlcmUgeW91IGdvbm5hIGdvOiBrZWl0aCB0b2J5'
+    networks: 
+      udagram:
+        aliases: 
+          - user
+  backend-feed:
+    image: kbaafi/udagram-rest-feed
+    volumes:
+     - c:/users/kofi.baafi/.aws:/root/.aws
+    depends_on: 
+      - database
+    environment:
+      UDAGRAM_DBUSERNAME: $UDAGRAM_DBUSERNAME
+      UDAGRAM_DBPASSWORD: $UDAGRAM_DBPASSWORD
+      UDAGRAM_DBNAME: $UDAGRAM_DBNAME
+      UDAGRAM_DBHOST: database
+      UDAGRAM_ORMDIALECT: $UDAGRAM_ORMDIALECT
+      UDAGRAM_AWS_REGION: $UDAGRAM_AWS_REGION
+      UDAGRAM_AWS_PROFILE: $UDAGRAM_AWS_PROFILE
+      UDAGRAM_S3_MEDIABUCKET: $UDAGRAM_S3_MEDIABUCKET
+      UDAGRAM_FRONTEND_URL: 'http://localhost:8100'
+      UDAGRAM_JWT_SECRET: 'd2hlcmUgeW91IGdvbm5hIGdvOiBrZWl0aCB0b2J5'
+    networks: 
+      udagram:
+        aliases: 
+          - feed
+  frontend:
+    image: kbaafi/udagram-frontend
+    ports:
+      - '8100:80'
+    environment: 
+      UDAGRAM_BACKEND_URL: 'http://localhost:8080/api/v0'
+    networks: 
+      udagram:
+        aliases: 
+          - frontend
+networks:
+  udagram:
