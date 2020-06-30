@@ -11,14 +11,12 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-
-npm_build:
- - cd user
- - npm install
- - npm run build
- - cd ../feed
- - npm install
- - npm run build
+  - cd user
+  - npm install
+  - npm run build
+  - cd ../feed
+  - npm install
+  - npm run build
 
 install: 
   - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
