@@ -22,7 +22,7 @@ spec:
       containers:
         - name: backend-feed
           image: kbaafi/udagram-rest-feed
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "64Mi"

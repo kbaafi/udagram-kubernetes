@@ -22,7 +22,7 @@ spec:
       containers:
         - name: backend-user
           image: kbaafi/udagram-rest-user 
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             requests:
               memory: "64Mi"
