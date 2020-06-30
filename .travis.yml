@@ -21,12 +21,9 @@ before_install:
   - npm run build
   - cd ../
   - mkdir -p ~/.aws
-  - cat > ~/.aws/credentials << EOL
-    >[default]
-    >aws_access_key_id = ${AWS_ACCESS_KEY_ID}
-    >aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}
-    >EOL
-  - mv credentials ~/.aws/credentials
+  - echo "[default]" >> ~/.aws/credentials
+  - echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
+  - echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
 install: 
   - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
