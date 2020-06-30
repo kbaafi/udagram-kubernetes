@@ -4,4 +4,4 @@ metadata:
   name: aws-profile
 type: Opaque
 data:
-  credentials: W2RlZmF1bHRdCmF3c19hY2Nlc3Nfa2V5X2lkID0gQUtJQVRLWEZVWjUySUlVUVZXTU8KYXdzX3NlY3JldF9hY2Nlc3Nfa2V5ID0gdkhvVzB2azNTSGgrRjBiSTN3K284blFTWWc1OTBpenozbzRxNDBXRQ==
+  credentials: ##
