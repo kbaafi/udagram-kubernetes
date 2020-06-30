@@ -11,6 +11,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - 
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt install nodejs
   - cd user
@@ -20,10 +21,6 @@ before_install:
   - npm ci
   - npm run build
   - cd ../
-  - mkdir -p ~/.aws
-  - echo "[default]" >> ~/.aws/credentials
-  - echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
-  - echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
 install: 
   - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
@@ -31,3 +28,14 @@ install:
   - docker push kbaafi/udagram-rest-feed
   - docker push kbaafi/udagram-rest-user
   - docker push kbaafi/udagram-rest-reverseproxy
+
+installv2:
+  # install version 2 of feed and user for A/B Testing
+  - cd feed
+  - docker build -t kbaafi/udagram-rest-feed-v2 .
+  - cd ../user
+  - docker build -t kbaafi/udagram-rest-user-v2 .
+  - cd ../
+  - docker login --username ${DOCKER_USER} --password ${DOCKER_PASSWORD}
+  - docker push kbaafi/udagram-rest-feed-v2
+  - docker push kbaafi/udagram-rest-user-v2
