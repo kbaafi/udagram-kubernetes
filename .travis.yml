@@ -14,10 +14,10 @@ before_install:
   - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
   - sudo apt install nodejs
   - cd user
-  - npm install
+  - npm ci
   - npm run build
   - cd ../feed
-  - npm install
+  - npm ci
   - npm run build
 
 install: 
