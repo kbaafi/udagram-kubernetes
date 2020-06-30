@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-user
+  name: backend-user-v2
 
 # Replica set
 spec:
@@ -9,8 +9,8 @@ spec:
     matchLabels:
       app: udagram
       service: backend-user
-      version: v1
-  replicas: 2
+      version: v2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -23,12 +23,12 @@ spec:
       labels:
         app: udagram
         service: backend-user
-        version: v1
+        version: v2
     spec:
       restartPolicy: Always
       containers:
         - name: backend-user
-          image: kbaafi/udagram-rest-user 
+          image: kbaafi/udagram-rest-user-v2
           imagePullPolicy: IfNotPresent
           resources:
             requests:

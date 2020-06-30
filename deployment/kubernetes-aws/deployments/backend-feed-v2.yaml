@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-user
+  name: backend-feed-v2
 
 # Replica set
 spec:
   selector:
     matchLabels:
       app: udagram
-      service: backend-user
-      version: v1
-  replicas: 2
+      service: backend-feed
+      version: v2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -22,13 +22,13 @@ spec:
     metadata:
       labels:
         app: udagram
-        service: backend-user
-        version: v1
+        service: backend-feed
+        version: v2
     spec:
       restartPolicy: Always
       containers:
-        - name: backend-user
-          image: kbaafi/udagram-rest-user 
+        - name: backend-feed
+          image: kbaafi/udagram-rest-feed-v2
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -37,6 +37,9 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "250m"
+          ports:
+            - containerPort: 8080
+              name: http
           env:
             - name: UDAGRAM_DBUSERNAME
               valueFrom:
@@ -88,3 +91,12 @@ spec:
                 configMapKeyRef:
                   name: env-config
                   key: UDAGRAM_FRONTEND_URL
+          volumeMounts:
+            - mountPath: "/root/.aws/"
+              name: aws-profile
+              readOnly: true
+      volumes:
+        - name: aws-profile
+          secret:
+            secretName: aws-profile
+        
