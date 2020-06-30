@@ -9,7 +9,7 @@ RUN npm ci
 
 RUN ls
 # Copy the rest of the code
-COPY www/ .
+COPY www .
 
 # Expose the port 
 EXPOSE 8080
