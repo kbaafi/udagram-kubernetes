@@ -19,6 +19,7 @@ before_install:
   - cd ../feed
   - npm ci
   - npm run build
+  - cd ../
 
 install: 
   - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
