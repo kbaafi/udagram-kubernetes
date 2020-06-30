@@ -12,8 +12,16 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
+npm_build:
+ - cd user
+ - npm install
+ - npm run build
+ - cd ../feed
+ - npm install
+ - npm run build
+
 install: 
-  - docker-compose -f deployment/docker/docker-compose-build.yaml build
+  - docker-compose -f deployment/docker/docker-compose-build.yaml build --parallel
   - docker login --username ${DOCKER_USER} --password ${DOCKER_PASSWORD}
   - docker push kbaafi/udagram-rest-feed
   - docker push kbaafi/udagram-rest-user
