@@ -2,17 +2,17 @@ version: '3'
 services:
   reverse-proxy:
     build:
-      context: ../reverse-proxy
+      context: ../../reverse-proxy
     image: kbaafi/udagram-rest-reverseproxy
   backend-user:
     build:
-      context: ../user
+      context: ../../user
     image: kbaafi/udagram-rest-user
   backend-feed:
     build:
-      context: ../feed
+      context: ../../feed
     image: kbaafi/udagram-rest-feed
   frontend:
     build: 
-      context: ../frontend
+      context: ../../frontend
     image: kbaafi/udagram-frontend
