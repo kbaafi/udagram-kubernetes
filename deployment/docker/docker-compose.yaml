@@ -1,7 +1,7 @@
 version: "3"
 services:
   reverse-proxy:
-    image: kbaafi/udagram-rest-reverse-proxy
+    image: kbaafi/udagram-rest-reverseproxy
     ports:
       - 8080:8080
     restart: always
