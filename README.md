@@ -50,6 +50,7 @@ kubectl apply -f ./deployments
 ```
 
 The running pods are shown below:
+
 ![The running pods](readmeimgs/getpods.png)
 
 To ensure that your deployments run, make sure that the RDS database is up and running in AWS
